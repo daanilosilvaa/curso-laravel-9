@@ -9,10 +9,16 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
 
-        $users = User::get();
+        $search = $request->search;
+        $users = User::where(function($query) use ($search){
+            if($search){
+                $query->where('name','LIKE',"%{$search}%");
+            }
+
+        })->get();
 
         return view('users.index', compact('users'));
     }
@@ -22,9 +28,9 @@ class UserController extends Controller
 
         //$user = User::where('id', $id)->first();
 
-       if (! $user = User::find($id)) {
-        return redirect()->route('users.index');
-       }
+        if (! $user = User::find($id)) {
+            return redirect()->route('users.index');
+        }
 
         return view('users.show', compact('user'));
     }
@@ -33,35 +39,37 @@ class UserController extends Controller
     {
         return view('users.create');
     }
-    public function store( StoreUpdateUserFormRequest $request)
+    public function store(StoreUpdateUserFormRequest $request)
     {
         $data = $request->all();
 
         $data['password'] = bcrypt($request->password);
-         User::create($data);
+        User::create($data);
 
-         return  redirect()->route('users.index');
+        return  redirect()->route('users.index');
     }
 
     public function edit($id)
     {
         if (! $user = User::find($id)) {
             return redirect()->route('users.index');
-           }
+        }
         return view('users.edit', compact('user'));
-
     }
 
     public function update(StoreUpdateUserFormRequest $request, $id)
     {
         if (! $user = User::find($id)) {
             return redirect()->route('users.index');
-           }
+        }
 
-           dd($request->all());
+        $data = $request->only('name', 'email');
+        if ($request->password) {
+            $data['password'] = bcrypt($request->password);
+        }
+        $user->update($data);
 
-        return view('users.edit', compact('user'));
 
+        return  redirect()->route('users.index');
     }
-
 }
