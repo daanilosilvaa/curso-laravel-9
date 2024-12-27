@@ -9,6 +9,10 @@
     <li>{{ $user->name }}</li>
     <li>{{ $user->email }}</li>
 </ul>
-
+<form action="{{ route('users.destroy', $user->id) }}" method="POST" class="py-12">
+    @method('DELETE')
+    @csrf
+    <button type="submit" class="rounded-full bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4">Deletar</button>
+</form>
 
 @endsection
