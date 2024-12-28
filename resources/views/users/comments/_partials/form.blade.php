@@ -2,7 +2,6 @@
     @csrf
     <label for="">Comentario</label>
     <textarea name="body" id="" cols="30" rows="10" placeholder="Contudo do comentario"
-        value="{{ $comment->body ?? old('body') }}"
         class= "form-control
             block
             w-full
@@ -18,9 +17,12 @@
             ease-in-out
             m-0
             focus:text-gray-700 focus:bg-white focus:border-block">
+            {{ $comment->body ?? old('body') }}
         </textarea>
     <label for="visible">
-        <input type="checkbox" name="visible" id="">
+        <input type="checkbox" name="visible" id="" @if (isset($comment) && $comment->visible)
+            checked
+        @endif>
         visível?
     </label>
 
