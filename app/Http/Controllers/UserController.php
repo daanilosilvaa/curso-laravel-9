@@ -47,7 +47,7 @@ class UserController extends Controller
 
 
         if($data['password'] == null){
-            return view('users.create');
+            return redirect()->back();
         }
 
         $data['password'] = bcrypt($request->password);
