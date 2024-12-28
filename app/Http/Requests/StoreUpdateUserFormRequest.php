@@ -26,34 +26,40 @@ class StoreUpdateUserFormRequest extends FormRequest
 
         $id = $this->id ?? '';
 
-        $rules = [
-            'name' => 'required|string|max:255|min:3 ',
-            'email' => [
-                'required',
-                'email',
-                'unique:users',
-            ],
-            'password' => [
-                'required',
-                'min:6',
-                'max:15',
-            ]
-        ];
-        if ($this->method('PUT')) {
+
+
             $rules = [
                 'name' => 'required|string|max:255|min:3 ',
+                'email' => [
+                    'required',
+                    'email',
+                    'unique:users',
+                ],
                 'password' => [
-                    'nullable',
+                    'required',
                     'min:6',
                     'max:15',
-                ],
+                ]
+            ];
+
+
+        if ($this->method('PUT') == 'PUT') {
+            $rules = [
+                'name' => 'required|string|max:255|min:3 ',
                 'email' => [
                     'required',
                     'email',
                     "unique:users,email,{$id},id",
                 ],
+                'password' => [
+                    'nullable',
+                    'min:6',
+                    'max:15',
+                ],
             ];
         }
+
+
         return  $rules;
     }
 }

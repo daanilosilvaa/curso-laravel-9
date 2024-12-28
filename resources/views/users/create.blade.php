@@ -8,7 +8,7 @@
 
 @include('includes.validations-form')
 
-   <form action="{{ route('users.store') }}" method="post">
+   <form action="{{ route('users.store') }}" method="POST">
     @include('users._partials.form')
    </form>
 

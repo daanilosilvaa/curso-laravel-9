@@ -39,9 +39,16 @@ class UserController extends Controller
     {
         return view('users.create');
     }
+
+
     public function store(StoreUpdateUserFormRequest $request)
     {
         $data = $request->all();
+
+
+        if($data['password'] == null){
+            return view('users.create');
+        }
 
         $data['password'] = bcrypt($request->password);
         $this->model->create($data);
