@@ -5,7 +5,6 @@
 @section('content')
 <h1 class="text-2xl font-semibold leading-tigh py-2">Editar o Usuário {{ $user->name }}</h1>
 
-<a href="{{ route('users.index') }}"><<-</a>
 
 @include('includes.validations-form')
 

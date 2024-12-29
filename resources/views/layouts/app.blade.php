@@ -8,7 +8,7 @@
     <title>Curso Laravel - @yield('title') </title>
 </head>
 <body class="bg-gray-50">
-
+    @include('layouts.navbar')
     <div class="container mx-auto px-4 py-8">
         @yield('content')
     </div>
