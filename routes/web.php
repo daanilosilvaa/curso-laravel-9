@@ -6,6 +6,8 @@ use App\Http\Controllers\{
 use App\Http\Controllers\Admin\CommentController;
 use Illuminate\Support\Facades\Route;
 
+
+Route::delete('users/{user}/comments/{id}', [CommentController::class, 'destroy'])->name('comments.destroy');
 Route::get('users/{id}/comments/create', [CommentController::class, 'create'])->name('comments.create');
 Route::get('users/{user}/comments/{id}', [CommentController::class, 'edit'])->name('comments.edit');
 Route::put('comments/{id}', [CommentController::class, 'update'])->name('comments.update');

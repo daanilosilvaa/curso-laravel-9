@@ -80,4 +80,26 @@ class CommentController extends Controller
 
         return redirect()->route('comments.index', $comment->user_id);
     }
+
+
+    public function destroy($userId,$id )
+    {
+
+        if (!$comment = $this->comment->find($id) ) {
+            return redirect()->back();
+        }
+        if (!$comment->user_id == $userId) {
+            return redirect()->back();
+        }
+
+        $comment->delete();
+
+        return redirect()->route('comments.index', $comment->user_id);
+
+
+
+
+
+
+    }
 }
