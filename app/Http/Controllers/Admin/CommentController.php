@@ -15,19 +15,23 @@ class CommentController extends Controller
     protected $comment;
     protected $user;
 
+
     public function __construct(Comment $comment, User $user)
     {
         $this->comment = $comment;
         $this->user = $user;
     }
 
-    public function index($userId)
+    public function index(Request $request, $userId)
     {
         if (!$user = $this->user->find($userId)) {
             return redirect()->back();
         }
 
-        $comments = $user->comments()->get();
+        //  $users = $this->comment->getAllComments(search: $request->search ?? '');
+
+
+        $comments = $user->comments()->where('body', 'LIKE', "%{$request->search}%")->get();
 
 
         return view('users.comments.index', compact('user', 'comments'));
@@ -82,10 +86,10 @@ class CommentController extends Controller
     }
 
 
-    public function destroy($userId,$id )
+    public function destroy($userId, $id)
     {
 
-        if (!$comment = $this->comment->find($id) ) {
+        if (!$comment = $this->comment->find($id)) {
             return redirect()->back();
         }
         if (!$comment->user_id == $userId) {
@@ -95,11 +99,5 @@ class CommentController extends Controller
         $comment->delete();
 
         return redirect()->route('comments.index', $comment->user_id);
-
-
-
-
-
-
     }
 }
