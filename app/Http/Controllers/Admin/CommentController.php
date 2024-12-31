@@ -32,7 +32,7 @@ class CommentController extends Controller
         //  $users = $this->comment->getAllComments(search: $request->search ?? '');
 
 
-        $comments = $user->comments()->where('body', 'LIKE', "%{$request->search}%")->get();
+        $comments = $user->comments()->where('body', 'LIKE', "%{$request->search}%")->paginate(2);
 
 
         return view('users.comments.index', compact('user', 'comments'));
